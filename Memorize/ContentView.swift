@@ -29,12 +29,7 @@ struct ContentView: View {
             }.font(.largeTitle).padding(.horizontal)
         }.padding(.horizontal)
         
-        
-        
         }
-    
-    
-    
     
     var remove : some View{
         Button {
@@ -45,8 +40,6 @@ struct ContentView: View {
             Image(systemName: "minus.circle")
         }
     }
-
-    
     var add : some View{
         Button {
             if emojiCount < emojis.count {
@@ -61,9 +54,8 @@ struct ContentView: View {
 
 struct CardView : View{
     var content : String
- @State   var isFacedUp = true
+ @State var isFacedUp = true
     var body: some View{
-        
         ZStack {
         let shape = RoundedRectangle(cornerRadius: 20)
             
@@ -73,22 +65,17 @@ struct CardView : View{
                 Text(content).font(.largeTitle)
                     .fontWeight(.heavy)
                   
-
-           
             }
             else{
                 shape .fill()
             }
 
-            
         }.onTapGesture {
             isFacedUp = !isFacedUp
         }
         .padding(.horizontal)
         .foregroundColor(.red)
-
     }
-    
 }
 
 
