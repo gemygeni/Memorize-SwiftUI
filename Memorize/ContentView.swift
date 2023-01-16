@@ -22,8 +22,8 @@
                 }
                 .foregroundColor(.red)
                 .foregroundColor(.red)
-           }
-       }
+             }
+         }
 
 
     struct CardView : View{
@@ -36,8 +36,9 @@
                     shape.strokeBorder(lineWidth: 3 )
                     Text(card.content).font(.largeTitle)
                         .fontWeight(.heavy)
-                }
-                else{
+                } else if card.isMatched{
+                    shape.opacity(0)
+                }else{
                     shape .fill()
                 }
             }
