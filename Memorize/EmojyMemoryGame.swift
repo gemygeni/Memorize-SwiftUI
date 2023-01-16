@@ -6,19 +6,22 @@
 //
 
 import Foundation
-class EmojyMemoryGame{
+class EmojyMemoryGame : ObservableObject{
     static var emojis  = ["⌚️","📱","🖥","🖲","💽","🗜","🕹","🖨","🖱","💿","💾","🚗","🚕","🚌","🚎","🏎","🚒","🚑","🍆","🥬","🧅","🫒","🫑","🌶","🍠","🧀"]
     
-   static func createMemoryGame() -> MemoryGame<String>{
+ @Published  private var model : MemoryGame<String> = createMemoryGame()
 
-       MemoryGame<String>(numberOfPairsOfCards: 4) { pairIndex in
-           emojis[pairIndex]
+   static func createMemoryGame() -> MemoryGame<String>{
+       return  MemoryGame<String>(numberOfPairsOfCards: 10) { pairIndex in
+           return emojis[pairIndex]
        }
     }
     
-    private var model : MemoryGame<String> = createMemoryGame()
     var cards : Array<MemoryGame<String>.Card>{
         return model.cards
     }
-
+    
+    func choose(_ card :MemoryGame<String>.Card ){
+        model.choose(card)
+    }
 }
