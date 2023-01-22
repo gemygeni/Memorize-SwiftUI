@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EF186B1E297CCAF900D41765 /* Pie.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF186B1D297CCAF900D41765 /* Pie.swift */; };
 		EF3D2D12297C98250063B6ED /* AspectVGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3D2D11297C98250063B6ED /* AspectVGrid.swift */; };
 		EF5CFF282940D20D0056613F /* MemorizeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5CFF272940D20D0056613F /* MemorizeApp.swift */; };
 		EF5CFF2A2940D20D0056613F /* EmojyMemoryGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5CFF292940D20D0056613F /* EmojyMemoryGameView.swift */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		EF186B1D297CCAF900D41765 /* Pie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pie.swift; sourceTree = "<group>"; };
 		EF3D2D11297C98250063B6ED /* AspectVGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspectVGrid.swift; sourceTree = "<group>"; };
 		EF5CFF242940D20D0056613F /* Memorize.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Memorize.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF5CFF272940D20D0056613F /* MemorizeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemorizeApp.swift; sourceTree = "<group>"; };
@@ -59,6 +61,7 @@
 			children = (
 				EF5CFF272940D20D0056613F /* MemorizeApp.swift */,
 				EF5CFF292940D20D0056613F /* EmojyMemoryGameView.swift */,
+				EF186B1D297CCAF900D41765 /* Pie.swift */,
 				EF3D2D11297C98250063B6ED /* AspectVGrid.swift */,
 				EFBE47BF296CC8B80000048B /* MemoryGame.swift */,
 				EFBE47C1296CD73E0000048B /* EmojyMemoryGame.swift */,
@@ -146,6 +149,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF186B1E297CCAF900D41765 /* Pie.swift in Sources */,
 				EFBE47C0296CC8B80000048B /* MemoryGame.swift in Sources */,
 				EF5CFF2A2940D20D0056613F /* EmojyMemoryGameView.swift in Sources */,
 				EF5CFF282940D20D0056613F /* MemorizeApp.swift in Sources */,

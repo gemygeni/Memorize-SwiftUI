@@ -32,8 +32,12 @@
                     if card.isFacedUp {
                         shape.fill().foregroundColor(.white)
                         shape.strokeBorder(lineWidth: drawingConstants.lineWidth )
+                        Pie(startAngel: Angle(degrees: 0-90), endAngel: Angle(degrees: 110-90))
+                            .opacity(0.5).padding(5)
+
                         Text(card.content).font(font(of: geometry.size))
                             .fontWeight(.heavy)
+                        
                     } else if card.isMatched{
                         shape.opacity(0)
                     }else{
@@ -46,7 +50,7 @@
         private struct drawingConstants{
             static let cornerRadius : CGFloat = 10
             static let lineWidth : CGFloat = 3
-            static let fontScale : CGFloat = 0.75
+            static let fontScale : CGFloat = 0.7
         }
         func font(of size : CGSize) -> Font {
 Font.system(size: min(size.width, size.height) * drawingConstants.fontScale)
@@ -56,6 +60,7 @@ Font.system(size: min(size.width, size.height) * drawingConstants.fontScale)
     struct ContentView_Previews: PreviewProvider {
         static var previews: some View {
             let game = EmojyMemoryGame()
-            EmojyMemoryGameView(viewModel: game)
+            game.choose(game.cards.first!)
+           return EmojyMemoryGameView(viewModel: game)
         }
     }
