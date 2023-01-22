@@ -10,18 +10,15 @@
     struct EmojyMemoryGameView: View {
        @ObservedObject var viewModel : EmojyMemoryGame
         var body: some View {
-                ScrollView{
-                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 100))])  {
-                        ForEach(viewModel.cards) { card in
-                            CardView(card : card).aspectRatio(2/3, contentMode: .fit)
-                                .onTapGesture {
-                                    viewModel.choose(card)
-                                 }
-                               }
-                          }
-                      }
+            AspectVGrid(items: viewModel.cards, aspectRatio: 2/3) { card in
+                CardView(card : card)
+                    .padding(4)
+                    .onTapGesture {
+                        viewModel.choose(card)
+                     }
+                  }
                 .foregroundColor(.red)
-                .foregroundColor(.red)
+                .padding(.horizontal)
              }
          }
 
@@ -47,15 +44,13 @@
         }
         
         private struct drawingConstants{
-            static let cornerRadius : CGFloat = 20
+            static let cornerRadius : CGFloat = 10
             static let lineWidth : CGFloat = 3
-            static let fontScale : CGFloat = 0.8
+            static let fontScale : CGFloat = 0.75
         }
         func font(of size : CGSize) -> Font {
 Font.system(size: min(size.width, size.height) * drawingConstants.fontScale)
         }
-        
-        
     }
 
     struct ContentView_Previews: PreviewProvider {

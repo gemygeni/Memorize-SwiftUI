@@ -41,7 +41,6 @@ struct MemoryGame<CardContent> where CardContent : Equatable{
                   else{
                       indexOfTheOneAndOnlyFaceUpCard = chosenCardIndex
                  }
-              
              }
           }
     
