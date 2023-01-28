@@ -37,6 +37,7 @@
                     CardView(card : card)
                         .matchedGeometryEffect(id: card.id, in: dealingNameSpace)
                         .transition(.asymmetric(insertion: .identity, removal: .opacity))
+                        .zIndex(zIndex(of: card))
                         .padding(4)
                         .onTapGesture {
                             withAnimation(.easeIn(duration: 1)) {
@@ -55,13 +56,23 @@
             }
         }
         
+        
+        private func zIndex(of card: EmojiMemoryGame.Card) -> Double {
+            
+            print(-Double(game.cards.firstIndex(where: { $0.id == card.id }) ?? 0))
+         return   -Double(game.cards.firstIndex(where: { $0.id == card.id }) ?? 0)
+            
+            
+        }
+
+        
                 var deck : some View{
                     ZStack{
                         ForEach(game.cards.filter(isUnDealt)){ card in
                             CardView(card: card)
                                 .matchedGeometryEffect(id: card.id, in: dealingNameSpace)
                                 .transition(.asymmetric(insertion: .opacity, removal: .scale))
-
+                                .zIndex(zIndex(of: card))
                         }
                     }.frame(width: CardConstants.undealtWidth, height: CardConstants.undealtHeight)
                         .foregroundColor(.red)
