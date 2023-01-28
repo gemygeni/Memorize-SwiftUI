@@ -8,19 +8,44 @@
     import SwiftUI
 
     struct EmojyMemoryGameView: View {
-       @ObservedObject var viewModel : EmojyMemoryGame
+       @ObservedObject var game : EmojyMemoryGame
+        
         var body: some View {
-            AspectVGrid(items: viewModel.cards, aspectRatio: 2/3) { card in
-                CardView(card : card)
-                    .padding(4)
-                    .onTapGesture {
-                        viewModel.choose(card)
-                     }
-                  }
-                .foregroundColor(.red)
-                .padding(.horizontal)
-             }
+            VStack{
+            gameBody
+                Spacer(minLength: 0)
+            shuffle
+             }.padding()
          }
+        
+        
+        
+        var gameBody : some View{
+            AspectVGrid(items: game.cards, aspectRatio: 2/3, content: { card in
+                if card.isMatched && !card.isFacedUp{
+                    Color.clear
+                }else{
+                    CardView(card : card)
+                        .padding(4)
+                        .onTapGesture {
+                            withAnimation(.easeIn(duration: 1)) {
+                                game.choose(card)
+                            }
+                     }
+                }
+            })
+                .foregroundColor(.red)
+        }
+        
+        var shuffle : some View{
+            Button("shuffle"){
+                withAnimation {
+                    game.shuffle()
+                }
+            }
+        }
+        
+    } 
 
 
     struct CardView : View{
@@ -28,32 +53,27 @@
         var body: some View{
             GeometryReader { geometry in
                 ZStack {
-                    let shape = RoundedRectangle(cornerRadius: drawingConstants.cornerRadius)
-                    if card.isFacedUp {
-                        shape.fill().foregroundColor(.white)
-                        shape.strokeBorder(lineWidth: drawingConstants.lineWidth )
                         Pie(startAngel: Angle(degrees: 0-90), endAngel: Angle(degrees: 110-90))
                             .opacity(0.5).padding(5)
-
-                        Text(card.content).font(font(of: geometry.size))
-                            .fontWeight(.heavy)
-                        
-                    } else if card.isMatched{
-                        shape.opacity(0)
-                    }else{
-                        shape.fill()
-                    }
+                        Text(card.content).rotationEffect(Angle(degrees: card.isMatched ? 360 : 0)).animation(Animation.linear(duration: 2).repeatForever(autoreverses: false), value: card.isMatched)
+                        .font(Font.system(size: drawingConstants.fontSize))
+                        .scaleEffect(scale(thatFits: geometry.size))
                 }
+                .cardify(isFacedUp: card.isFacedUp)
             }
         }
         
+        private func scale(thatFits size : CGSize) -> CGFloat{
+            
+            min(size.width, size.height) / (drawingConstants.fontSize / drawingConstants.fontScale)
+        }
+        
         private struct drawingConstants{
-            static let cornerRadius : CGFloat = 10
-            static let lineWidth : CGFloat = 3
             static let fontScale : CGFloat = 0.7
+            static let fontSize : CGFloat = 32
         }
         func font(of size : CGSize) -> Font {
-Font.system(size: min(size.width, size.height) * drawingConstants.fontScale)
+        Font.system(size: min(size.width, size.height) * drawingConstants.fontScale)
         }
     }
 
@@ -61,6 +81,6 @@ Font.system(size: min(size.width, size.height) * drawingConstants.fontScale)
         static var previews: some View {
             let game = EmojyMemoryGame()
             game.choose(game.cards.first!)
-           return EmojyMemoryGameView(viewModel: game)
+           return EmojyMemoryGameView(game : game)
         }
     }

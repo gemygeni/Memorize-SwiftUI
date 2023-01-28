@@ -25,5 +25,9 @@ class EmojyMemoryGame : ObservableObject{
     func choose(_ card : Card ){
         game.choose(card)
     }
+    
+    func shuffle (){
+        game.shuffle()
+    }
 }
    

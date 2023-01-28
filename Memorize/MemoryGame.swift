@@ -21,6 +21,7 @@ struct MemoryGame<CardContent> where CardContent : Equatable{
             cards.append(Card(content: contet ,id: pairIndex*2))
             cards.append(Card(content: contet , id: pairIndex*2+1 ))
         }
+        cards.shuffle()
     }
     
  mutating func choose(_ card : Card)  {
@@ -50,6 +51,11 @@ struct MemoryGame<CardContent> where CardContent : Equatable{
         let content : CardContent
         let id: Int
     }
+    
+    mutating func shuffle (){
+        cards.shuffle()
+    }
+
 }
 
 extension Array{
