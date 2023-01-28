@@ -1,12 +1,12 @@
 //
-//  EmojyMemoryGame.swift
+//  EmojiMemoryGame.swift
 //  Memorize
 //
 //  Created by AHMED GAMAL  on 10/01/2023.
 //
 
 import Foundation
-class EmojyMemoryGame : ObservableObject{
+class EmojiMemoryGame : ObservableObject{
   private static var emojis  = ["⌚️","📱","🖥","🖲","💽","🗜","🕹","🖨","🖱","💿","💾","🚗","🚕","🚌","🚎","🏎","🚒","🚑","🍆","🥬","🧅","🫒","🫑","🌶","🍠","🧀"]
     
  @Published  private var game  = createMemoryGame()

@@ -1,5 +1,5 @@
 //
-//  EmojyMemoryGameView.swift
+//  EmojiMemoryGameView.swift
 //  Memorize
 //
 //  Created by AHMED GAMAL  on 07/12/2022.
@@ -7,8 +7,8 @@
 
     import SwiftUI
 
-    struct EmojyMemoryGameView: View {
-       @ObservedObject var game : EmojyMemoryGame
+    struct EmojiMemoryGameView: View {
+       @ObservedObject var game : EmojiMemoryGame
         
         var body: some View {
             VStack{
@@ -20,11 +20,11 @@
         
         
         @State private var dealt = Set<Int>()
-     private func deal (_ card : EmojyMemoryGame.Card){
+     private func deal (_ card : EmojiMemoryGame.Card){
          dealt.insert(card.id)
         }
         
-        private func isUnDealt(_ card : EmojyMemoryGame.Card)-> Bool{
+        private func isUnDealt(_ card : EmojiMemoryGame.Card)-> Bool{
             return !dealt.contains(card.id)
         }
         
@@ -36,7 +36,7 @@
                 }else{
                     CardView(card : card)
                         .matchedGeometryEffect(id: card.id, in: dealingNameSpace)
-                        .transition(.asymmetric(insertion: .scale, removal: .opacity))
+                        .transition(.asymmetric(insertion: .identity, removal: .opacity))
                         .padding(4)
                         .onTapGesture {
                             withAnimation(.easeIn(duration: 1)) {
@@ -44,7 +44,7 @@
                             }
                      }
                 }
-            })                .foregroundColor(.red)
+            }).foregroundColor(.red)
         }
         
         var shuffle : some View{
@@ -54,8 +54,6 @@
                 }
             }
         }
-        
-        
         
                 var deck : some View{
                     ZStack{
@@ -68,14 +66,22 @@
                     }.frame(width: CardConstants.undealtWidth, height: CardConstants.undealtHeight)
                         .foregroundColor(.red)
                         .onTapGesture(){
-                            withAnimation(.easeIn(duration: 3)) {
-                                game.cards.forEach { card in
+                            for card in game.cards{
+                                withAnimation(dealAnimation(for: card)) {
                                     deal(card)
                                 }
                             }
                         }
-                }
+                 }
 
+        
+        private func dealAnimation(for card: EmojiMemoryGame.Card) -> Animation {
+            var delay = 0.0
+            if let index = game.cards.firstIndex(where: { $0.id == card.id }) {
+                delay = Double(index) * (CardConstants.totalDealDuration / Double(game.cards.count))
+            }
+            return Animation.easeInOut(duration: CardConstants.dealDuration).delay(delay)
+        }
         private struct CardConstants {
             static let color = Color.red
             static let aspectRatio: CGFloat = 2/3
@@ -83,16 +89,11 @@
             static let totalDealDuration: Double = 2
             static let undealtHeight: CGFloat = 90
             static let undealtWidth = undealtHeight * aspectRatio
-        }
+         }
 
-        
-        
-        
     }
-
-
     struct CardView : View{
-        let card  : EmojyMemoryGame.Card
+        let card  : EmojiMemoryGame.Card
         var body: some View{
             GeometryReader { geometry in
                 ZStack {
@@ -115,6 +116,7 @@
             static let fontScale : CGFloat = 0.7
             static let fontSize : CGFloat = 32
         }
+
         func font(of size : CGSize) -> Font {
         Font.system(size: min(size.width, size.height) * drawingConstants.fontScale)
         }
@@ -122,8 +124,8 @@
 
     struct ContentView_Previews: PreviewProvider {
         static var previews: some View {
-            let game = EmojyMemoryGame()
+            let game = EmojiMemoryGame()
             game.choose(game.cards.first!)
-           return EmojyMemoryGameView(game : game)
+           return EmojiMemoryGameView(game : game)
         }
     }
