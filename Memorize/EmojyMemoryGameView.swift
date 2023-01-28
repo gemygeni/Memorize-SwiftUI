@@ -13,27 +13,44 @@
         var body: some View {
             VStack{
             gameBody
-                Spacer(minLength: 0)
+            Spacer(minLength: 0)
             shuffle
              }.padding()
          }
         
         
+        @State private var dealt = Set<Int>()
+     private func deal (_ card : EmojyMemoryGame.Card){
+         dealt.insert(card.id)
+        }
+        
+        private func isUnDealt(_ card : EmojyMemoryGame.Card)-> Bool{
+            return !dealt.contains(card.id)
+        }
         
         var gameBody : some View{
             AspectVGrid(items: game.cards, aspectRatio: 2/3, content: { card in
-                if card.isMatched && !card.isFacedUp{
+                if isUnDealt(card) || card.isMatched && !card.isFacedUp{
                     Color.clear
                 }else{
                     CardView(card : card)
                         .padding(4)
+                        .transition(.asymmetric(insertion: .scale, removal: .opacity))
+                        
                         .onTapGesture {
                             withAnimation(.easeIn(duration: 1)) {
                                 game.choose(card)
                             }
                      }
                 }
-            })
+            }).onAppear(){
+                withAnimation(.easeIn(duration: 2)) {
+                    game.cards.forEach { card in
+                        deal(card)
+                    }
+
+                }
+            }
                 .foregroundColor(.red)
         }
         
