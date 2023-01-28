@@ -13,7 +13,7 @@
         var body: some View {
             VStack{
             gameBody
-            Spacer(minLength: 0)
+            deck
             shuffle
              }.padding()
          }
@@ -28,30 +28,23 @@
             return !dealt.contains(card.id)
         }
         
+        @Namespace private var  dealingNameSpace
         var gameBody : some View{
             AspectVGrid(items: game.cards, aspectRatio: 2/3, content: { card in
                 if isUnDealt(card) || card.isMatched && !card.isFacedUp{
                     Color.clear
                 }else{
                     CardView(card : card)
-                        .padding(4)
+                        .matchedGeometryEffect(id: card.id, in: dealingNameSpace)
                         .transition(.asymmetric(insertion: .scale, removal: .opacity))
-                        
+                        .padding(4)
                         .onTapGesture {
                             withAnimation(.easeIn(duration: 1)) {
                                 game.choose(card)
                             }
                      }
                 }
-            }).onAppear(){
-                withAnimation(.easeIn(duration: 2)) {
-                    game.cards.forEach { card in
-                        deal(card)
-                    }
-
-                }
-            }
-                .foregroundColor(.red)
+            })                .foregroundColor(.red)
         }
         
         var shuffle : some View{
@@ -62,7 +55,40 @@
             }
         }
         
-    } 
+        
+        
+                var deck : some View{
+                    ZStack{
+                        ForEach(game.cards.filter(isUnDealt)){ card in
+                            CardView(card: card)
+                                .matchedGeometryEffect(id: card.id, in: dealingNameSpace)
+                                .transition(.asymmetric(insertion: .opacity, removal: .scale))
+
+                        }
+                    }.frame(width: CardConstants.undealtWidth, height: CardConstants.undealtHeight)
+                        .foregroundColor(.red)
+                        .onTapGesture(){
+                            withAnimation(.easeIn(duration: 3)) {
+                                game.cards.forEach { card in
+                                    deal(card)
+                                }
+                            }
+                        }
+                }
+
+        private struct CardConstants {
+            static let color = Color.red
+            static let aspectRatio: CGFloat = 2/3
+            static let dealDuration: Double = 0.5
+            static let totalDealDuration: Double = 2
+            static let undealtHeight: CGFloat = 90
+            static let undealtWidth = undealtHeight * aspectRatio
+        }
+
+        
+        
+        
+    }
 
 
     struct CardView : View{
