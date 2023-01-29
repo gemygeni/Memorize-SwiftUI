@@ -40,7 +40,7 @@
         @Namespace private var  dealingNameSpace
         var gameBody : some View{
             AspectVGrid(items: game.cards, aspectRatio: 2/3, content: { card in
-                if isUnDealt(card) || card.isMatched && !card.isFacedUp{
+                if isUnDealt(card) || card.isMatched && !card.isFaceUp{
                     Color.clear
                 }else{
                     CardView(card : card)
@@ -121,16 +121,30 @@
     }
     struct CardView : View{
         let card  : EmojiMemoryGame.Card
+        @State private var animatedBonusRemaining: Double = 0
         var body: some View{
             GeometryReader { geometry in
                 ZStack {
-                        Pie(startAngel: Angle(degrees: 0-90), endAngel: Angle(degrees: 110-90))
-                            .opacity(0.5).padding(5)
+                    Group {
+                        if card.isConsumingBonusTime {
+                            Pie(startAngle: Angle(degrees: 0-90), endAngle: Angle(degrees: (1-animatedBonusRemaining)*360-90))
+                                .onAppear {
+                                    animatedBonusRemaining = card.bonusRemaining
+                                    withAnimation(.linear(duration: card.bonusTimeRemaining)) {
+                                        animatedBonusRemaining = 0
+                                    }
+                                }
+                        } else {
+                            Pie(startAngle: Angle(degrees: 0-90), endAngle: Angle(degrees: (1-card.bonusRemaining)*360-90))
+                        }
+                    }
+                        .padding(5)
+                        .opacity(0.5)
                         Text(card.content).rotationEffect(Angle(degrees: card.isMatched ? 360 : 0)).animation(Animation.linear(duration: 2).repeatForever(autoreverses: false), value: card.isMatched)
                         .font(Font.system(size: drawingConstants.fontSize))
                         .scaleEffect(scale(thatFits: geometry.size))
                 }
-                .cardify(isFacedUp: card.isFacedUp)
+                .cardify(isFacedUp: card.isFaceUp)
             }
         }
         
