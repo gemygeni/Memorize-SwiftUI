@@ -11,15 +11,20 @@
        @ObservedObject var game : EmojiMemoryGame
         
         var body: some View {
+            ZStack(alignment: .bottom){
             VStack{
             gameBody
-            deck
+            
                 HStack{
                shuffle
                Spacer()
                restart
-                }.padding(.horizontal)
-             }.padding()
+                }
+                .padding(.horizontal)
+            }
+        deck
+             }
+            .padding()
           }
         
         
