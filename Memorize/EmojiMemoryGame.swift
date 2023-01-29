@@ -29,5 +29,10 @@ class EmojiMemoryGame : ObservableObject{
     func shuffle (){
         game.shuffle()
     }
+    
+    func restart(){
+        game = EmojiMemoryGame.createMemoryGame()
+    }
+    
 }
    

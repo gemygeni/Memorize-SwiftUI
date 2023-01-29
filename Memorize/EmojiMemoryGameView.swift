@@ -14,9 +14,13 @@
             VStack{
             gameBody
             deck
-            shuffle
+                HStack{
+               shuffle
+               Spacer()
+               restart
+                }.padding(.horizontal)
              }.padding()
-         }
+          }
         
         
         @State private var dealt = Set<Int>()
@@ -56,13 +60,20 @@
             }
         }
         
+        var restart : some View{
+            Button("restart"){
+                withAnimation {
+                    dealt = []
+                    game.restart()
+                }
+            }
+        }
+        
+        
+        
         
         private func zIndex(of card: EmojiMemoryGame.Card) -> Double {
-            
-            print(-Double(game.cards.firstIndex(where: { $0.id == card.id }) ?? 0))
-         return   -Double(game.cards.firstIndex(where: { $0.id == card.id }) ?? 0)
-            
-            
+          -Double(game.cards.firstIndex(where: { $0.id == card.id }) ?? 0)
         }
 
         
